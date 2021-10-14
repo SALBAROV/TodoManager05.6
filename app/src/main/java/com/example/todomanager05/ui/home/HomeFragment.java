@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todomanager05.R;
 import com.example.todomanager05.databinding.FragmentHomeBinding;
+import com.example.todomanager05.ui.utils.Constants;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +39,10 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+       if (getArguments() != null){
+           String s = getArguments().getString(Constants.USER_TASK);
+           binding.tvTitle.setText(s);
+       }
         return root;
     }
 
