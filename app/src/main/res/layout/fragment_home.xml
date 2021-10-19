@@ -9,8 +9,34 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/task_recycler"
         android:layout_width="match_parent"
+        tools:listitem="@layout/item_task"
+        android:layout_marginTop="80dp"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <TextView
+        android:id="@+id/day_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/round_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        />
+
 
 
 

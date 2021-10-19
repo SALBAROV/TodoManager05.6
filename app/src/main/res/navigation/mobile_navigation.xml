@@ -10,9 +10,7 @@
         android:name="com.example.todomanager05.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_nav_home_to_createTaskFragment"
-            app:destination="@id/createTaskFragment" />
+
     </fragment>
 
     <fragment
@@ -31,4 +29,9 @@
         android:name="com.example.todomanager05.ui.create.CreateTaskFragment"
         android:label="fragment_create_task"
         tools:layout="@layout/fragment_create_task" />
+    <fragment
+        android:id="@+id/createFragment"
+        android:name="com.example.todomanager05.ui.task.CreateFragment"
+        android:label="fragment_create"
+        tools:layout="@layout/fragment_create" />
 </navigation>

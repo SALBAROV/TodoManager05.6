@@ -2,8 +2,12 @@ package com.example.todomanager05.ui.task;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -12,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 
 import com.example.todomanager05.R;
@@ -30,6 +36,7 @@ public class CreateFragment extends Fragment {
     String userChoosedDate;
     String time;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,7 @@ public class CreateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCreateBinding.inflate(inflater, container, false);
+        addGallery();
         return binding.getRoot();
     }
 
@@ -64,6 +72,7 @@ public class CreateFragment extends Fragment {
                 navController.navigate(R.id.nav_home, bundle);
             }
         });
+
     }
 
     public void showDateTimePicker() {
@@ -88,6 +97,23 @@ public class CreateFragment extends Fragment {
             }
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    binding.myImage.setImageURI(uri);
+                }
+            });
+
+    private void  addGallery(){
+        binding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGetContent.launch("image/*");
+            }
+        });
+
+}
 
     @Override
     public void onDestroyView() {
