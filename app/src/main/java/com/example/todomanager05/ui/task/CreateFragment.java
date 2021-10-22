@@ -16,26 +16,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
+import android.widget.Gallery;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
 import com.example.todomanager05.R;
 import com.example.todomanager05.databinding.FragmentCreateBinding;
+import com.example.todomanager05.ui.home.HomeFragment;
 import com.example.todomanager05.ui.utils.Constants;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
 
 public class CreateFragment extends Fragment {
-    private FragmentCreateBinding binding;
     String userTask;
     String userChoosedDate;
     String time;
-
+    String image;
+    FragmentCreateBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,15 +47,15 @@ public class CreateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCreateBinding.inflate(inflater, container, false);
-        addGallery();
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NotNull View view,  Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+        addGallery();
         binding.setTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,13 +66,16 @@ public class CreateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 userTask = binding.taskEd.getText().toString();
-                TaskModel model = new TaskModel(R.color.purple_200,userTask,userChoosedDate +"/"+time,"https://static.wikia.nocookie.net/naruto/images/d/dd/Naruto_Uzumaki%21%21.png/revision/latest?cb=20170816203155&path-prefix=ru");
+
+                TaskModel model = new TaskModel(R.color.purple_200, userTask, userChoosedDate + "/" + time,
+                        image);
                 Bundle bundle = new Bundle();
+                Log.e("anime", "onClick: "+model.image );
                 bundle.putSerializable(Constants.USER_TASK, model);
                 navController.navigate(R.id.nav_home, bundle);
             }
         });
-
+//        passImage();
     }
 
     public void showDateTimePicker() {
@@ -88,8 +91,8 @@ public class CreateFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        time = hourOfDay+" : "+minute;
-                        userChoosedDate= date.get(Calendar.MONTH)+"." +date.get(Calendar.DAY_OF_MONTH);
+                        time = hourOfDay + " : " + minute;
+                        userChoosedDate = date.get(Calendar.MONTH) + "." + date.get(Calendar.DAY_OF_MONTH);
 
                         Log.v("ololo", "The choosen one " + date.getTime());
                     }
@@ -97,23 +100,35 @@ public class CreateFragment extends Fragment {
             }
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
+
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri uri) {
-                    binding.myImage.setImageURI(uri);
+                    image  = uri.toString();
+                    Glide.with(binding.myImage).load(image).into(binding.myImage);
+
+                    // binding.myImage.setImageURI(uri);
                 }
             });
 
-    private void  addGallery(){
+    private void addGallery() {
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mGetContent.launch("image/*");
             }
         });
+    }
 
-}
+//    private void passImage() {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("image", String.valueOf(binding.myImage));
+//        HomeFragment homeFragment = new HomeFragment();
+//        homeFragment.setArguments(bundle);
+//        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+//        navController.navigate(R.id.nav_home, bundle);
+//    }
 
     @Override
     public void onDestroyView() {
@@ -121,4 +136,3 @@ public class CreateFragment extends Fragment {
         binding = null;
     }
 }
-

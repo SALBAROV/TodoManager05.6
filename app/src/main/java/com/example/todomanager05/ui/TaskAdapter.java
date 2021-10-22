@@ -1,10 +1,12 @@
 package com.example.todomanager05.ui;
 
 
+import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +24,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     ArrayList<TaskModel> list;
     ItemTaskBinding binding;
-    
+
+
 
     public TaskAdapter(ArrayList<TaskModel> list) {
         this.list = list;
@@ -59,7 +62,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             binding.titleTv.setText(model.title);
             binding.timeText.setText(model.time);
             binding.leftColorV.setBackgroundColor(model.color);
-            Glide.with(binding.taskIm).load(R.drawable.ic_menu_camera).centerCrop().into(binding.taskIm);
+            ActivityResultLauncher<String> mGetContent = null;
+            Glide.with(binding.taskIm).load(model.image).centerCrop().into(binding.taskIm);
+
+
 
         }
     }
