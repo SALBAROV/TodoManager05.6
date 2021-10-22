@@ -1,5 +1,6 @@
 package com.example.todomanager05.ui.home;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     TaskModel model;
     ArrayList<TaskModel> list = new ArrayList<>();
+    Uri imageGet;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
