@@ -1,10 +1,13 @@
 package com.example.todomanager05.ui.task;
 
-import android.net.Uri;
-
 import java.io.Serializable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class TaskModel implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    public long id;
     public int color;
     public String title;
     public String time;

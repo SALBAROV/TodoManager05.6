@@ -4,6 +4,7 @@ package com.example.todomanager05.ui;
 import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,8 +25,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     ArrayList<TaskModel> list;
     ItemTaskBinding binding;
-
-
+    OnItemClickListener onItemClickListener;
 
     public TaskAdapter(ArrayList<TaskModel> list) {
         this.list = list;
@@ -65,8 +65,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             ActivityResultLauncher<String> mGetContent = null;
             Glide.with(binding.taskIm).load(model.image).centerCrop().into(binding.taskIm);
 
-
-
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onItemClickListener.onLongClick(model);
+                    return false;
+                }
+            });
         }
     }
 }
