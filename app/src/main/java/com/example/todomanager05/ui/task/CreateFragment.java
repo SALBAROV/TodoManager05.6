@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.todomanager05.R;
 import com.example.todomanager05.databinding.FragmentCreateBinding;
 import com.example.todomanager05.ui.home.HomeFragment;
+import com.example.todomanager05.ui.utils.App;
 import com.example.todomanager05.ui.utils.Constants;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,10 +70,13 @@ public class CreateFragment extends Fragment {
 
                 TaskModel model = new TaskModel(R.color.purple_200, userTask, userChoosedDate + "/" + time,
                         image);
-                Bundle bundle = new Bundle();
-                Log.e("anime", "onClick: "+model.image );
-                bundle.putSerializable(Constants.USER_TASK, model);
-                navController.navigate(R.id.nav_home, bundle);
+//               Bundle bundle = new Bundle();
+  //             Log.e("anime", "onClick: "+model.image );
+//               bundle.putSerializable(Constants.USER_TASK, model);
+
+                App.getInstance().getDataBase().taskDao().insert(model);
+                App.getInstance().showToast("Hello World");
+                navController.navigate(R.id.nav_home);
             }
         });
 //        passImage();
@@ -105,9 +109,10 @@ public class CreateFragment extends Fragment {
             new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri uri) {
-                    image  = uri.toString();
-                    Glide.with(binding.myImage).load(image).into(binding.myImage);
-
+                    if (uri != null) {
+                        image = uri.toString();
+                        Glide.with(binding.myImage).load(image).into(binding.myImage);
+                    }
                     // binding.myImage.setImageURI(uri);
                 }
             });

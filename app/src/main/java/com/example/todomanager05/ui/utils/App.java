@@ -13,13 +13,13 @@ import org.w3c.dom.Text;
 
 public class App extends Application {
     public static App instance;
-    private DataBase dataBase;
+    private  static DataBase dataBase;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        DataBase dataBase = Room.databaseBuilder(this, DataBase.class,"tododatabase").allowMainThreadQueries().build();
+         dataBase = Room.databaseBuilder(this, DataBase.class,"tododatabase").allowMainThreadQueries().build();
     }
     public void showToast(String text){
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();

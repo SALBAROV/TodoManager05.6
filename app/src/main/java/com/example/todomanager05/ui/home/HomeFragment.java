@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
@@ -21,15 +22,17 @@ import com.example.todomanager05.ui.OnItemClickListener;
 import com.example.todomanager05.ui.TaskAdapter;
 import com.example.todomanager05.ui.task.TaskModel;
 import com.example.todomanager05.ui.utils.App;
+import com.example.todomanager05.ui.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemClickListener {
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     TaskModel model;
-    ArrayList<TaskModel> list = new ArrayList<>();
+    TaskAdapter adapter = new TaskAdapter();
     Uri imageGet;
     NavController navController;
 
@@ -51,7 +54,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
 //        if (getArguments() != null) {
 //            model = (TaskModel) getArguments().getSerializable(Constants.USER_TASK);
 //            list.add(model);
-//        }
+
         getDataFromDatabase();
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +65,44 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         });
 
         initAdapter();
+        setLongClick();
     }
 
-    private ArrayList<TaskModel> getDataFromDatabase() {
-        return (ArrayList<TaskModel>) App.getInstance().getDataBase().taskDao().getALL();
+    private void setLongClick() {
+
+        adapter.setOnLongClickListener(new OnItemClickListener() {
+            @Override
+            public void onLongClick(TaskModel model) {
+                AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())
+                        .setTitle("вы точно хотите удалить?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                App.getInstance().getDataBase().taskDao().delete(model);
+                            }
+                        })
+                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .create();
+                alertDialog.show();
+            }
+        });
+    }
+
+    private void getDataFromDatabase() {
+        App.getInstance().getDataBase().taskDao().getALL().observe(getViewLifecycleOwner(), new Observer<List<TaskModel>>() {
+            @Override
+            public void onChanged(List<TaskModel> taskModels) {
+                adapter.addList((ArrayList<TaskModel>) taskModels);
+            }
+        });
     }
 
     private void initAdapter() {
-        TaskAdapter adapter = new TaskAdapter(getDataFromDatabase());
         binding.taskRecycler.setAdapter(adapter);
     }
 
@@ -79,27 +112,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         binding = null;
     }
 
-    @Override
-    public void onLongClick(TaskModel taskModel) {
-        AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())
-                .setTitle("вы точно хотите удалить?")
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        App.getInstance().getDataBase().taskDao().delete(taskModel);
 
-                    }
-                })
-                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .create();
-        alertDialog.show();
-        Log.e("ane", alertDialog.toString());
-    }
 }
 
 

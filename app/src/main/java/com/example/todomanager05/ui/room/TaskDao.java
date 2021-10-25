@@ -1,5 +1,6 @@
 package com.example.todomanager05.ui.room;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface TaskDao {
 
     @Query("SELECT * FROM taskmodel")
-    List<TaskModel> getALL();
+    LiveData<List<TaskModel>> getALL();
 
     @Insert
     void insert(TaskModel taskModel);

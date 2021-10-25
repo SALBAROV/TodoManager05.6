@@ -23,12 +23,18 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    ArrayList<TaskModel> list;
+    ArrayList<TaskModel> list = new ArrayList<>();
     ItemTaskBinding binding;
     OnItemClickListener onItemClickListener;
 
-    public TaskAdapter(ArrayList<TaskModel> list) {
+    public  void addList(ArrayList<TaskModel> list) {
         this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public void setOnLongClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+
     }
 
     @NonNull
@@ -68,7 +74,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    onItemClickListener.onLongClick(model);
+                    onItemClickListener.onLongClick( model);
                     return false;
                 }
             });
