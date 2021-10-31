@@ -2,6 +2,7 @@ package com.example.todomanager05.ui.task;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ import com.example.todomanager05.ui.utils.Constants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class CreateFragment extends Fragment {
     String userTask;
@@ -68,7 +70,13 @@ public class CreateFragment extends Fragment {
             public void onClick(View view) {
                 userTask = binding.taskEd.getText().toString();
 
-                TaskModel model = new TaskModel(R.color.purple_200, userTask, userChoosedDate + "/" + time,
+                Random rand = new Random();
+                int r = rand.nextInt(255);
+                int g = rand.nextInt(255);
+                int b = rand.nextInt(255);
+                int randColor = Color.rgb(r, g, b);
+
+                TaskModel model = new TaskModel(randColor, userTask, userChoosedDate + "/" + time,
                         image);
 //               Bundle bundle = new Bundle();
   //             Log.e("anime", "onClick: "+model.image );
@@ -125,6 +133,8 @@ public class CreateFragment extends Fragment {
             }
         });
     }
+
+
 
 //    private void passImage() {
 //        Bundle bundle = new Bundle();

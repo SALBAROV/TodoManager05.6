@@ -16,4 +16,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="skip">Пропустить</string>
+    <string name="start">Старт</string>
+    <string name="description_about_app">description about app</string>
+    <string name="some_title_about_app">some title about app</string>
 </resources>
