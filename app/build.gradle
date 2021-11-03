@@ -57,6 +57,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 //dots indicators
     implementation 'com.tbuonomo:dotsindicator:4.2'
+// lottie animation
+    implementation'com.airbnb.android:lottie:4.2.0'
 
     
 

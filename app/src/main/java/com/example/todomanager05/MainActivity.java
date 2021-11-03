@@ -1,5 +1,6 @@
 package com.example.todomanager05;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.todomanager05.databinding.ActivityMainBinding;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -26,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        String languageToLoad  = "fa"; // your language
+//        Locale locale = new Locale(languageToLoad);
+//        Locale.setDefault(locale);
+//        Configuration config = new Configuration();
+//        config.locale = locale;
+//        getBaseContext().getResources().updateConfiguration(config,
+//                getBaseContext().getResources().getDisplayMetrics());
+//        this.setContentView(R.layout.main);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

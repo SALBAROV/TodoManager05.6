@@ -47,9 +47,12 @@ public class OnBoardFragment extends Fragment {
                     break;
                 case 1:
                     binding.titleTv.setText("Второй экран");
+                    binding.boardImage.setAnimation("hands.json");
+                    
                     break;
                 case 2:
                     binding.titleTv.setText("Третий экран");
+                    binding.boardImage.setAnimation("icon.json");
                     binding.startBtn.setVisibility(View.VISIBLE);
                     binding.startBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
